@@ -7,6 +7,7 @@ import diplom.by.robot.model.CourseEntity;
 import diplom.by.robot.model.UserEntity;
 import diplom.by.robot.repository.CourseRepository;
 import diplom.by.robot.util.ConverterUtil;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -39,6 +41,8 @@ public class CourseService {
         private final ImageService imageService;
         private final UserService userService;
         private final ModelMapper modelMapper;
+        private final NotificationService notificationService;
+        private final PersonDetailsService personDetailsService;
 
         @Transactional
         public CourseDto createCourse(CourseDto courseDto) {
@@ -56,12 +60,16 @@ public class CourseService {
                 return converterUtil.convertCourseToDto(createdCourse);
         }
 
-        public void saveCoursesInXml() {
+        public void saveCoursesInXml(String token) {
                 List<CourseDto> courses = courseRepository.findAll()
                         .stream()
                         .map(converterUtil::convertCourseToDto)
                         .toList();
 
+                String filePath = "excel/courses.xlsx";
+                File excelFile = new File(filePath);
+
+                excelFile.getParentFile().mkdirs();
 
                 try (Workbook workbook = new XSSFWorkbook()) {
                         Sheet sheet = workbook.createSheet("Courses");
@@ -93,13 +101,24 @@ public class CourseService {
                                 sheet.autoSizeColumn(i);
                         }
 
-                        try (FileOutputStream fileOut = new FileOutputStream("excel\\courses.xlsx")) {
+                        try (FileOutputStream fileOut = new FileOutputStream(excelFile)) {
                                 workbook.write(fileOut);
                         }
+
+                        UserEntity user = userService.getUserByToken(token);
+
+                        notificationService.sendMessageWithAttachments(
+                                user.getEmail(),
+                                "Импорт курсов",
+                                "Курсы были успешно импортированны",
+                                excelFile
+                        );
 
                         System.out.println("Excel файл успешно создан!");
                 } catch (IOException e) {
                         e.printStackTrace();
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
                 }
 
         }

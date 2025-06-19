@@ -62,8 +62,8 @@ public class CourseController {
         }
 
         @PostMapping("/import")
-        public ResponseEntity<CourseDto> importCourse() {
-            courseService.saveCoursesInXml();
+        public ResponseEntity<CourseDto> importCourse(@RequestHeader("Authorization") String token) {
+            courseService.saveCoursesInXml(token);
 
             return new ResponseEntity<CourseDto>(new CourseDto(), HttpStatus.OK);
         }

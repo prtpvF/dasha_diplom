@@ -59,7 +59,7 @@ public class ImageService {
                 throw new FileExtensionException("ошибка загрузки файла");
             }
 
-            return "/uploads/"+uniqueFilename;
+            return "uploads/"+uniqueFilename;
         }
 
         public void deleteImage(String pathToFile) {
