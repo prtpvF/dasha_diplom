@@ -4,6 +4,7 @@ import diplom.by.robot.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,6 +48,7 @@ public class SecurityConfiguration {
                         "/admin/tutors").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/tutor/**").hasRole("TUTOR")
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest()
                 .permitAll());
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
