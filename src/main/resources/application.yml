@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: robot
+  datasource:
+    username: dasha_diplom_user
+    password: rJlZy3uh0nlKE6nMMqGmVWEJE0k4nBuI
+    url: jdbc:postgresql://localhost:5432/dasha_diplom
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 10MB
+
+
+save_path: ${SAVING_DIR}
+
+
+server:
+  port: ${PORT:8081}
