@@ -2,9 +2,9 @@ spring:
   application:
     name: robot
   datasource:
-    username: mihail
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/robot
+    username: dasha_diplom_ry1n_user
+    password: 10tV3NUrsF1dQVXusVJbNb5CnrnQRCCd
+    url: jdbc:postgresql://dpg-d1a5u13e5dus73e9l12g-a:5432/dasha_diplom_ry1n
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,7 +17,7 @@ spring:
       max-file-size: 10MB
 
 
-save_path: ${SAVING_DIR:fds}
+save_path: ${SAVING_DIR}
 
 
 server:
