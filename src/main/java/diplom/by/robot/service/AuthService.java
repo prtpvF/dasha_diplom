@@ -76,11 +76,15 @@ public class AuthService {
         }
 
         public void checkAvailabilityForRegistration(UserDto userDto) {
-                Optional<UserEntity> user = userRepository.findByUsernameOrPhoneOrEmail(
-                        userDto.getUsername(),
-                        userDto.getPhone(),
-                        userDto.getEmail());
-                if(user.isPresent()) {
+                try {
+                        Optional<UserEntity> user = userRepository.findByUsernameOrPhoneOrEmail(
+                                userDto.getUsername(),
+                                userDto.getPhone(),
+                                userDto.getEmail());
+                        if (user.isPresent()) {
+                                throw new NonUniqueEntityException("пользователь с одним из таких полей уже существует");
+                        }
+                } catch (Exception e) {
                         throw new NonUniqueEntityException("пользователь с одним из таких полей уже существует");
                 }
         }

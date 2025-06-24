@@ -30,7 +30,7 @@ public class CommentService {
             CommentEntity comment = new CommentEntity();
             comment.setAuthor(author);
             comment.setCourse(course);
-            comment.setText(comment.getText());
+            comment.setText(commentDto.getComment());
             return converterUtil.convertCommentToCommentDto(commentRepository.save(comment));
         }
 

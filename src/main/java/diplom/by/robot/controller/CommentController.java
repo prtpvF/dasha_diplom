@@ -35,7 +35,7 @@ public class CommentController {
      }
 
      @GetMapping("/course/{id}")
-     public List<CommentDto> getCourseComments(@PathVariable("{id}") Integer courseId) {
+     public List<CommentDto> getCourseComments(@PathVariable("id") Integer courseId) {
          return commentService.getAllCourseComments(courseId);
      }
 
