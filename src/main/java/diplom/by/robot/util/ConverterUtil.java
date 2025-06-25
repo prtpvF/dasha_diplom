@@ -22,6 +22,7 @@ public class ConverterUtil {
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .username(user.getUsername())
+                    .isActive(user.getIsActive())
                     .pathToImage(user.getPathToImage())
                     .role(user.getRole())
                     .email(user.getEmail())
